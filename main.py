@@ -24,7 +24,7 @@ def start():
             tr.write_file(pre,temp)
             temp = ""
         
-        print(dir(func)[dir(func).index(pre)])
-        print(Functions.__dict__[pre](func))
+        #print(dir(func)[dir(func).index(pre)])
+        print(Functions.__dict__[pre](input_str))
 if __name__ == '__main__':
     start()
