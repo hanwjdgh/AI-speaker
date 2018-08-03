@@ -10,9 +10,9 @@ def start():
         tr.train_data()
         
         input_str = input()
-        pre = tr.input_data(input_str)
+        pre,lst = tr.input_data(input_str)
         check = tr.check_file(pre,input_str)
-
+        print(lst)
         if input_str == "끝":
             break
 

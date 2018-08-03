@@ -21,7 +21,7 @@ class Train:
 
     def input_data(self,i_data):
         pre, scorelist = self.bf.predict(i_data)
-        return pre
+        return pre,scorelist
 
     def check_file(self,pre,input_str):
         s_filename = "./trainData/"+pre+".txt"
