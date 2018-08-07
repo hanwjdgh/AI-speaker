@@ -5,7 +5,6 @@ import model as model
 
 def test():
     x_data = [[0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-    y_data = [[1]]
 
     Model = model.model()
 
@@ -15,6 +14,6 @@ def test():
 
         #sess.run(tf.global_variables_initializer())
         saver.restore(sess, save_file) 
-        test_accuracy = sess.run(Model.accuracy,feed_dict={Model.X: x_data, Model.Y: y_data})
+        prediction = sess.run([Model.prediction],feed_dict={Model.X: x_data})
 
-    print('Test Accuracy: {}'.format(test_accuracy))
+    return prediction
