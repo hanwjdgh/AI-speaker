@@ -3,11 +3,16 @@ import numpy as np
 import glob, os
 import model as model
 
+word_dic={}
+
+def getdiction():
+    return word_dic
+
 def train():
+    global word_dic
     x_data = []
     y_data = []
 
-    word_dic={}
     cnt = 0
     files = glob.glob("./trainData/*.txt",recursive=True)
     for file_name in files:

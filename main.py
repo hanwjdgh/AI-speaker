@@ -15,7 +15,7 @@ def start():
         print(lst)
         if input_str == "끝":
             break
-
+        
         if check == 0:
             temp = input_str
             print("뭐라는 거야 다시 말해")
