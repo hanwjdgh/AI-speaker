@@ -1,4 +1,4 @@
-import train as train
+import new_train as train
 import test as test
 import tensorflow as tf
 from function import Functions
@@ -21,8 +21,7 @@ def readDic():
 
 if __name__ == '__main__':
     readDic()
-    print(word_dic)
-    #train.train()  
+    train.train(word_dic)  
     #tf.reset_default_graph() 
 
     #input_str = input()
