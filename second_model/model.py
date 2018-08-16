@@ -2,15 +2,16 @@ import tensorflow as tf
 import numpy as np
 
 class model:
-    def __init__(self):
+    def __init__(self,dic_len):
         self.nb_classes = 4  
-        self.X = tf.placeholder(tf.float32, [None, 31])
+        self.dic_len = dic_len
+        self.X = tf.placeholder(tf.float32, [None, self.dic_len])
         self.Y = tf.placeholder(tf.int32, [None, 1])  
 
         self.Y_one_hot = tf.one_hot(self.Y, self.nb_classes)  
         self.Y_one_hot = tf.reshape(self.Y_one_hot, [-1, self.nb_classes])
 
-        self.W = tf.Variable(tf.random_normal([31, self.nb_classes]), name='weight')
+        self.W = tf.Variable(tf.random_normal([self.dic_len, self.nb_classes]), name='weight')
         self.b = tf.Variable(tf.random_normal([self.nb_classes]), name='bias')
 
         self.logits = tf.matmul(self.X, self.W) + self.b

@@ -2,76 +2,59 @@ import tensorflow as tf
 import numpy as np
 import glob, os
 import model as model
+from konlpy.tag import Komoran
 
-word_dic={}
+class Train:
+    def __init__(self,dic):
+        self.word_dic = dic
+        self.komoran = Komoran()
+        self.Model = model.model(len(self.word_dic))
 
-def getdiction():
-    return word_dic
+    def sen2vec(self,sen):  
+        self.word_dic = self.word_dic.fromkeys(self.word_dic, 0)
+        lst=[]
+        for val in self.komoran.pos(sen):
+            if val[0] in self.word_dic:
+                self.word_dic[val[0]]+=1
+        for value in self.word_dic.values():
+            lst.append(value)
+        return lst
 
-def train():
-    global word_dic
-    x_data = []
-    y_data = []
+    def preprocess(self):
+        cnt=0
+        x_data = []
+        y_data = []
+        files = glob.glob("./trainData/*.txt",recursive=True)
+        for file_name in files:
+            basename = os.path.basename(file_name)
+            categorty = basename.split(".")[0]
 
-    cnt = 0
-    files = glob.glob("./trainData/*.txt",recursive=True)
-    for file_name in files:
-        basename = os.path.basename(file_name)
-        categorty = basename.split(".")[0]
+            i_file = open(file_name,"r",encoding="utf-8")
+            while True:             
+                text = i_file.readline()
+                if not text: 
+                    break
+                if len(text) > 1:
+                    lst = [cnt]
+                    y_data.append(lst)
+                    temp = text[:-1]
+                    x_data.append(self.sen2vec(temp))
+            i_file.close()
+            cnt+=1
 
-        i_file = open(file_name,"r",encoding="utf-8")
-        while True:
-            text = i_file.readline()
-            if not text: 
-                break
-            if len(text) > 1:
-                lst = [cnt]
-                y_data.append(lst)
-                temp = text[:-1].split(' ')
-                for val in temp:
-                    if(not val in word_dic):
-                        word_dic[val] = 0
-        i_file.close()
-        cnt += 1
+        self.train(x_data,y_data)
 
-    for file_name in files:
-        basename = os.path.basename(file_name)
-        categorty = basename.split(".")[0]
+    def train(self,x_lst,y_lst):
+        with tf.Session() as sess:
+            sess.run(tf.global_variables_initializer())
 
-        i_file = open(file_name,"r",encoding="utf-8")
-        while True:
-            word_dic = word_dic.fromkeys(word_dic, 0)
-            text = i_file.readline()
-            if not text: 
-                break
-            if len(text) > 1:
-                temp = text[:-1].split(' ')
-                for val in temp:
-                    word_dic[val] += 1
-                lst=[]
-                for values in word_dic.values():
-                    lst.append(values)
-            x_data.append(lst)
-        i_file.close()
-
-    for i in range(len(x_data)):
-        print(x_data[i],y_data[i])
-
-    Model = model.model()
-
-    with tf.Session() as sess:
-        sess.run(tf.global_variables_initializer())
-
-        for step in range(2000):
-            sess.run(Model.optimizer, feed_dict={Model.X: x_data, Model.Y: y_data})
-            if step % 100 == 0:
-                loss, acc = sess.run([Model.cost, Model.accuracy], feed_dict={
-                                    Model.X: x_data, Model.Y: y_data})
-                print("Step: {:5}\tLoss: {:.3f}\tAcc: {:.2%}".format(
-                    step, loss, acc))
-            if step == 1999:
-                saver = tf.train.Saver()
-                save_file = './save/model.ckpt'
-                saver.save(sess, save_file)
-        
-        #pred = sess.run(prediction, feed_dict={X: x_data})
+            for step in range(2000):
+                sess.run(self.Model.optimizer, feed_dict={self.Model.X: x_lst, self.Model.Y: y_lst})
+                if step % 100 == 0:
+                    loss, acc = sess.run([self.Model.cost, self.Model.accuracy], feed_dict={
+                                        self.Model.X: x_lst, self.Model.Y: y_lst})
+                    print("Step: {:5}\tLoss: {:.3f}\tAcc: {:.2%}".format(step, loss, acc))
+                if step == 1999:
+                    saver = tf.train.Saver()
+                    save_file = './save/model.ckpt'
+                    saver.save(sess, save_file)
