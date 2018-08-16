@@ -2,8 +2,9 @@ from train import Train
 from test import Test
 import tensorflow as tf
 from function import Functions
+from makedic import Makedic
 
-categories = ['off_light','on_light','time','weather']
+categories = ['off_light','on_light','time','update','weather']
 
 word_dic={}
 
@@ -20,7 +21,11 @@ def readDic():
 
 if __name__ == '__main__':
     readDic()
-
+    if len(word_dic)==0:
+        up = Makedic()
+        up.writefile()
+        readDic()
+    
     tr = Train(word_dic)
     tr.preprocess()
     tf.reset_default_graph() 

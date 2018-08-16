@@ -41,7 +41,8 @@ class Train:
                     x_data.append(self.sen2vec(temp))
             i_file.close()
             cnt+=1
-
+        for i in range(len(x_data)):
+            print(x_data[i],y_data[i]) 
         self.train(x_data,y_data)
 
     def train(self,x_lst,y_lst):

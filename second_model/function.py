@@ -1,4 +1,5 @@
 import datetime
+from makedic import Makedic
 
 class Functions:
     def off_light(self):
@@ -17,3 +18,8 @@ class Functions:
 
     def weather(self):
         return "weather 아직 api가 없어요"    
+    
+    def update(self):
+        up = Makedic()
+        up.writefile()
+        return "업데이트 완료"

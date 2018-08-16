@@ -30,6 +30,6 @@ class Makedic:
                             else:
                                 self.word_lst.append(val[0])
             i_file.close()
-
-        for value in word_lst:
+            
+        for value in self.word_lst:
             self.w_file.write(value+'\n')

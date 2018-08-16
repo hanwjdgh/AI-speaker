@@ -3,7 +3,7 @@ import numpy as np
 
 class model:
     def __init__(self,dic_len):
-        self.nb_classes = 4  
+        self.nb_classes = 5  
         self.dic_len = dic_len
         self.X = tf.placeholder(tf.float32, [None, self.dic_len])
         self.Y = tf.placeholder(tf.int32, [None, 1])  
