@@ -1,5 +1,9 @@
 import datetime
 from makedic import Makedic
+from pyowm import OWM
+
+API_key = ''
+owm = OWM(API_key=API_key)
 
 class Functions:
     def off_light(self):
@@ -17,7 +21,10 @@ class Functions:
             return "time "+str(datetime.datetime.now())
 
     def weather(self):
-        return "weather 아직 api가 없어요"    
+        obs = owm.weather_at_coords(37.4386, 127.1378)
+        w = obs.get_weather()
+        l = obs.get_location()
+        return l.get_name()+" : "+w.get_status()+", "+str(w.get_temperature(unit='celsius')['temp'])+"°"
     
     def update(self):
         up = Makedic()
