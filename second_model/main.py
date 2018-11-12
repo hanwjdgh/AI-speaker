@@ -29,12 +29,15 @@ if __name__ == '__main__':
     tr = Train(word_dic)
     tr.preprocess()
     tf.reset_default_graph() 
-
-    input_str = input()
-    temp_str = tr.sen2vec(input_str)
-
     ts = Test(word_dic)
-    hyper,var = ts.test(temp_str)
-    print(hyper)
-    print(var)
-    print(Functions.__dict__[categories[var[0]]]("test"))
+    while True:
+        input_str = input()
+        if input_str=="끝":
+            break
+        temp_str = tr.sen2vec(input_str)
+
+        
+        hyper,var = ts.test(temp_str)
+        print(hyper)
+        print(var)
+        print(Functions.__dict__[categories[var[0]]]("test"))

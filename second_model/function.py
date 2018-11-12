@@ -2,7 +2,7 @@ import datetime
 from makedic import Makedic
 from pyowm import OWM
 
-API_key = ''
+API_key = 'c2f671578a1618551299f58e730504ce'
 owm = OWM(API_key=API_key)
 
 class Functions:
@@ -12,13 +12,10 @@ class Functions:
     def on_light(self):
         return "on_light 아직 라즈베리가 없어요"
 
-    def time(text):
+    def time(self):
         day = ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일']
-        if text=='요일':
-            r = datetime.datetime.today().weekday()
-            return day[r]
-        else:
-            return "time "+str(datetime.datetime.now())
+        r = datetime.datetime.today().weekday()
+        return "time "+str(datetime.datetime.now())+" "+day[r]
 
     def weather(self):
         obs = owm.weather_at_coords(37.4386, 127.1378)
