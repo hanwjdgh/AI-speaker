@@ -2,7 +2,7 @@ import datetime
 from makedic import Makedic
 from pyowm import OWM
 
-API_key = 'c2f671578a1618551299f58e730504ce'
+API_key = ''
 owm = OWM(API_key=API_key)
 
 class Functions:
